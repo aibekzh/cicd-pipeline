@@ -40,7 +40,7 @@ scripts/test.sh'''
 
           // Create a tag that going to push into DockerHub
           sh "docker tag ${localImage} ${repositoryName} "
-          docker.withRegistry(\'https://registry.hub.docker.com\', \'docker.registry\') {
+          docker.withRegistry(\'https://registry.hub.docker.com\') {
             def image = docker.image("${repositoryName}");
             image.push()
           }'''
