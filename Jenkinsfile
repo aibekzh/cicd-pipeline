@@ -29,7 +29,10 @@ scripts/test.sh'''
     stage('Docker build') {
       agent any
       steps {
-        sh 'docker.build("release:${env.BUILD_NUMBER}", ".")'
+        script {
+          docker.build("release:${env.BUILD_NUMBER}", ".")
+        }
+
       }
     }
 
@@ -46,6 +49,19 @@ scripts/test.sh'''
             def image = docker.image("${repositoryName}");
             image.push()
           }'''
+        script {
+          echo "Pushing the image to docker hub"
+          def localImage = "release:${env.BUILD_NUMBER}"
+          def repositoryName = "blackmessiah/${localImage}"
+
+          // Create a tag that going to push into DockerHub
+          sh "docker tag ${localImage} ${repositoryName} "
+          docker.withRegistry('https://registry.hub.docker.com') {
+            def image = docker.image("${repositoryName}");
+            image.push()
+          }
+        }
+
       }
     }
 
