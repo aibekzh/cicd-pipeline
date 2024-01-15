@@ -1,5 +1,10 @@
 pipeline {
-  agent any
+  agent {
+    node {
+      label 'lts-alpine'
+    }
+
+  }
   stages {
     stage('Git checkout') {
       steps {
