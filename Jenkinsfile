@@ -46,10 +46,11 @@ sh scripts/test.sh'''
     stage('Docker push') {
       steps {
         script {
+          sh "docker images"
           def localImage = "release:${env.BUILD_NUMBER}"
           def repositoryName = "blackmessiah/${localImage}"
 
-          sh "docker tag ${localImage} ${repositoryName} "
+          sh "docker tag ${localImage} ${repositoryName}"
           docker.withRegistry('https://registry.hub.docker.com') {
             def image = docker.image("${repositoryName}");
             image.push()
