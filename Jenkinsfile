@@ -27,12 +27,14 @@ scripts/test.sh'''
     }
 
     stage('Docker build') {
+      agent any
       steps {
         sh 'docker.build("release:${env.BUILD_NUMBER}", ".")'
       }
     }
 
     stage('Docker push') {
+      agent any
       steps {
         sh ''' echo "Pushing the image to docker hub"
           def localImage = "release:${env.BUILD_NUMBER}"
