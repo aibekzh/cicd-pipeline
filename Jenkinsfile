@@ -8,27 +8,15 @@ pipeline {
     }
 
     stage('Build') {
-      parallel {
-        stage('Build') {
-          agent {
-            docker {
-              image 'node:lts-alpine'
-            }
+      agent {
+        docker {
+          image 'node:lts-alpine'
+        }
 
-          }
-          steps {
-            sh '''chmod +x scripts/build.sh
+      }
+      steps {
+        sh '''chmod +x scripts/build.sh
 sh scripts/build.sh'''
-          }
-        }
-
-        stage('Test') {
-          steps {
-            sh '''chmod +x scripts/test.sh
-scripts/test.sh'''
-          }
-        }
-
       }
     }
 
@@ -41,7 +29,7 @@ scripts/test.sh'''
       }
       steps {
         sh '''chmod +x scripts/test.sh
-scripts/test.sh'''
+sh scripts/test.sh'''
       }
     }
 
