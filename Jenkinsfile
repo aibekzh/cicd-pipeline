@@ -37,7 +37,7 @@ sh scripts/test.sh'''
     stage('Docker build') {
       steps {
         script {
-          docker.build("release:${env.BUILD_NUMBER}", ".")
+          docker.build("blackmessiah/release:${env.BUILD_NUMBER}")
         }
 
       }
@@ -46,14 +46,13 @@ sh scripts/test.sh'''
     stage('Docker push') {
       steps {
         script {
-          sh "docker images"
-          def localImage = "release:${env.BUILD_NUMBER}"
-          def repositoryName = "blackmessiah/${localImage}"
 
-          sh "docker tag ${localImage} ${repositoryName}"
-          docker.withRegistry('https://registry.hub.docker.com') {
-            def image = docker.image("${repositoryName}");
-            image.push()
+          def repositoryName = "blackmessiah/release:${env.BUILD_NUMBER}"
+
+
+          docker.withRegistry('https://registry.hub.docker.com','dockerhub_id') {
+            docker.image("${repositoryName}").push()
+
           }
         }
 
