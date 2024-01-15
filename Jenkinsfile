@@ -28,7 +28,8 @@ sh scripts/build.sh'''
 
       }
       steps {
-        sh '''chmod +x scripts/test.sh
+        sh '''npm install react-scripts --save
+chmod +x scripts/test.sh
 sh scripts/test.sh'''
       }
     }
